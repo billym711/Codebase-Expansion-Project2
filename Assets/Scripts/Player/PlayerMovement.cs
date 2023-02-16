@@ -27,11 +27,18 @@ public class PlayerMovement : MonoBehaviour
 	private void FixedUpdate()
 	{
 		m_input.Normalize();
-		m_rb.MovePosition(m_rb.position + (m_input * m_moveSpeed * Time.fixedDeltaTime));
+		if (this.name == "Player2_other" && Input.GetKey("space"))
+		{
 
-		m_animator.SetFloat("Horizontal", m_input.x);
-		m_animator.SetFloat("Vertical", m_input.y);
-		m_animator.SetFloat("Speed", m_input.sqrMagnitude);
-		m_rend.flipX = m_input.x < 0;
+		}
+		else
+		{
+			m_rb.MovePosition(m_rb.position + (m_input * m_moveSpeed * Time.fixedDeltaTime));
+			m_animator.SetFloat("Horizontal", m_input.x);
+			m_animator.SetFloat("Vertical", m_input.y);
+			m_animator.SetFloat("Speed", m_input.sqrMagnitude);
+			m_rend.flipX = m_input.x < 0;
+		}
+
 	}
 }
