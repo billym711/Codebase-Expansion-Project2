@@ -11,8 +11,11 @@ public class EnemyCombat : MonoBehaviour
 	[SerializeField] private float m_attackCooldownRandomOffset = 0.75f; 
 	[SerializeField] private float m_raycastDistance = 15.0f;
 	[SerializeField] private LayerMask m_lineOfSightMask;
-
-	[SerializeField] private Transform m_player;
+	[SerializeField] public Transform m_player;
+	[SerializeField] public Transform m_player2;
+	[SerializeField] public Transform defaultPlayer;
+	[SerializeField] public Transform dualPlayer;
+	[SerializeField] public Transform dualPlayer2;
 	[SerializeField] private GameObject m_bulletPrefab;
 	[SerializeField] private DamageFlash m_damageFlash;
 
@@ -26,6 +29,7 @@ public class EnemyCombat : MonoBehaviour
 
 	private void Awake()
 	{
+
 		m_currentHealth = m_maxHealth;
 		m_currentCooldown = m_attackCooldown;
 
@@ -35,14 +39,42 @@ public class EnemyCombat : MonoBehaviour
 		if (!m_player)
 			Debug.LogWarning("Enemy " + gameObject.name + " missing player reference");
 	}
-
-	private IEnumerator AttackLoop()
+    private void Update()
+    {
+		if (CharacterSelect.defaultChar)
+		{
+			m_player = defaultPlayer;
+			m_player2 = null;
+		}
+		else
+		{
+			m_player = dualPlayer;
+			m_player2 = dualPlayer2;
+		}
+	}
+    private IEnumerator AttackLoop()
 	{
 		while (m_currentHealth > 0)
 		{
 			if (!m_coolingDown)
 			{
-				Vector2 directionToPlayer = (m_player.position - transform.position).normalized;
+				Vector2 directionToPlayer;
+				if (CharacterSelect.defaultChar)
+				{
+					directionToPlayer = (m_player.position - transform.position).normalized;
+                }
+                else
+                {
+					if (Random.Range(0, 2) == 0)
+                    {
+						directionToPlayer = (m_player.position - transform.position).normalized;
+                    }
+                    else
+                    {
+						directionToPlayer = (m_player2.position - transform.position).normalized;
+
+					}
+				}
 				RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, m_raycastDistance, m_lineOfSightMask);
 				if (hit)
 				{

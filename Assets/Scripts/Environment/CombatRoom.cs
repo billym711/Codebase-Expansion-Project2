@@ -13,7 +13,9 @@ public class CombatRoom : MonoBehaviour
 
 	[SerializeField] private GameObject[] m_doors;
 	[SerializeField] private EnemyCombat[] m_enemies;
-
+	[SerializeField] private GameObject default_char;
+	[SerializeField] private GameObject dual_char;
+	[SerializeField] private GameObject dual_char2;
 	private bool m_active;
 	private bool m_complete;
 
@@ -40,8 +42,15 @@ public class CombatRoom : MonoBehaviour
 	{
 		if (!m_complete && !m_active)
 		{
-			if (collision.CompareTag("Player"))
+			if (collision.CompareTag("Player") && CharacterSelect.defaultChar)
+			{
 				Activate();
+			}
+			if (collision.CompareTag("Player") && collision.name == "Player2" && !CharacterSelect.defaultChar)
+            {
+				dual_char2.transform.position = dual_char.transform.position + new Vector3(.4f, 0, 0);
+				Activate();
+			}
 		}
 	}
 

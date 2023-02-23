@@ -213,7 +213,11 @@ MonoBehaviour:
   m_lineOfSightMask:
     serializedVersion: 2
     m_Bits: 1088
-  m_player: {fileID: 0}
+  playerList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_player: {fileID: 5229242981390877367, guid: e94b8cd6dc929bb48bd15ae718d47692, type: 3}
   m_bulletPrefab: {fileID: 5787384248625808476, guid: 6d3a87db206c63a488cfb1d01909db55, type: 3}
   m_damageFlash: {fileID: 3129237534402017542}
 --- !u!114 &7706588930580150007
